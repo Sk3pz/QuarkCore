@@ -1,0 +1,9 @@
+name: QuarkCore
+version: '${version}'
+main: es.skepz.quarkcore.QuarkCore
+api-version: '1.20'
+prefix: 'Quark'
+author: 'Skepz'
+commands:
+  cfgreload:
+    description: reload the config files
