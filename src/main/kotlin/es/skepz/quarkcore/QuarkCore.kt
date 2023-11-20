@@ -1,5 +1,6 @@
 package es.skepz.quarkcore
 
+import es.skepz.quarkcore.commands.BalanceCommand
 import es.skepz.quarkcore.commands.RankupCommand
 import es.skepz.quarkcore.commands.admin.ConfigsCommand
 import es.skepz.quarkcore.commands.admin.EcoCommand
@@ -33,6 +34,7 @@ class QuarkCore : JavaPlugin() {
         TplistCommand(this).register()
 
         RankupCommand(this).register()
+        BalanceCommand(this).register()
 
         // register admin commands
         ConfigsCommand(this).register()

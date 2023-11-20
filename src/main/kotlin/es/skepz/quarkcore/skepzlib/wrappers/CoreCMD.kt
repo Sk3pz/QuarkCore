@@ -23,6 +23,7 @@ abstract class CoreCMD protected constructor(
     lateinit var args: ArrayList<String>
     var helpMessage: String = "&7Usage: &c$usage"
 
+    open fun init() {}
     abstract fun run()
     abstract fun registerTabComplete(sender: CommandSender, args: Array<String>): List<String>
 
@@ -49,21 +50,12 @@ abstract class CoreCMD protected constructor(
         }
     }
 
-    fun invalidUse() {
-        invalidCmdUsage(sender, usage)
-    }
-
-    fun requirePlayer(): Boolean {
-        if (sender !is Player) {
-            notPlayer(sender)
-        }
-
-        return true
-    }
-
     // Will check permissions and for player
     // then execute run()
-    override fun onCommand(sender: CommandSender, cmd: Command, alias: String, args: Array<String>): Boolean {
+    override fun onCommand(s: CommandSender, cmd: Command, alias: String, args: Array<String>): Boolean {
+
+        this.args = ArrayList(listOf(*args)) // put args into arraylist
+        sender = s // set the sender
 
         if (args.size == 1 && args[0] == "?") { // if user is running the help function
             sendMessage(sender, helpMessage)

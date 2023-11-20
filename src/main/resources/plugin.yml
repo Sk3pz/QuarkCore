@@ -8,13 +8,16 @@ commands:
   cfgreload:
     description: reload the config files
     aliases: cfgrl
-  eco:
+  economy:
     description: manage player's balances (add, remove, set)
-    aliases: economy
+    aliases: eco
 
   rankup:
     description: rankup command
     aliases: ru
+  balance:
+    description: check your balance
+    aliases: bal
   tpa:
     description: request to teleport to a player
   tphere:
