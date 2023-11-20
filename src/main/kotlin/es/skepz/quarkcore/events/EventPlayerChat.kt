@@ -69,11 +69,13 @@ class EventPlayerChat(private val quark: QuarkCore): CoreEvent(quark) {
 
         val prestige = if (pLvl == "free") prestigeLvlDisplay else "$prestigeLvlDisplay$pRankColor$prestigeRank"
 
-        if (rankPrefix.isEmpty()) {
-            serverBroadcast("$prestige $nameColor${player.name} &7> &f${colorize(msgPlain)}")
+        val prefix = if (rankPrefix.isEmpty()) {
+            "$prestige $nameColor"
         } else {
-            serverBroadcast("$prestige $rankPrefix $nameColor${player.name} &7> &f${colorize(msgPlain)}")
+            "$prestige $rankPrefix $nameColor"
         }
+
+        serverBroadcast("$prefix${player.name} &7> &f${colorize(msgPlain)}")
     }
 
 }

@@ -1,0 +1,29 @@
+default-rank: default
+ranks:
+  default:
+    prefix: ''
+    nameColor: '&8'
+    permissions:
+      - ''
+  helper:
+    prefix: '&2&lHelper'
+    nameColor: '&a'
+    permissions:
+      - ''
+  mod:
+    prefix: '&9&lMod'
+    nameColor: '&3'
+    permissions:
+      - ''
+  admin:
+    prefix: '&4&lAdmin'
+    nameColor: '&c'
+    permissions:
+      - '*'
+    isOp: true
+  dev:
+    prefix: '&3&lDev'
+    nameColor: '&b'
+    permissions:
+      - '*'
+    isOp: true

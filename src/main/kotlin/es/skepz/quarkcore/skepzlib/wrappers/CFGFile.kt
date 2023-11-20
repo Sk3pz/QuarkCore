@@ -34,6 +34,10 @@ open class CFGFile(val plugin: JavaPlugin, private val fileName: String, folder:
         cfg = YamlConfiguration.loadConfiguration(file)
     }
 
+    fun exists(): Boolean {
+        return file.exists()
+    }
+
     /**
      * assert that a value exists in the file (for making default values)
      * @return true if set value

@@ -2,6 +2,7 @@ package es.skepz.quarkcore.commands
 
 import es.skepz.quarkcore.QuarkCore
 import es.skepz.quarkcore.skepzlib.sendMessage
+import es.skepz.quarkcore.skepzlib.serverBroadcast
 import es.skepz.quarkcore.skepzlib.wrappers.CoreCMD
 import es.skepz.quarkcore.utils.sendConfirmMsg
 import org.bukkit.command.CommandSender
@@ -18,7 +19,7 @@ class RankupCommand(val core: QuarkCore) : CoreCMD(core, "rankup", "/rankup",
 
         // get rankup cost and next rank from prestige.yml
         val rankupCost = core.files.prestige.cfg.getInt("ranks.$pRank.next_cost")
-        val nextRank = core.files.prestige.cfg.getString("ranks.$pRank.next_rank") ?:
+        val nextRank = core.files.prestige.cfg.getString("ranks.$pRank.next") ?:
             return sendMessage(player, "&cAn error occured trying to retrieve your next rank. Please contact an administrator.")
 
         // check if player has enough money
@@ -30,12 +31,13 @@ class RankupCommand(val core: QuarkCore) : CoreCMD(core, "rankup", "/rankup",
         // check if player is at max rank
         if (nextRank == "none") {
             // get the next prestige
-            val nextPrestige = core.files.prestige.cfg.getString("prestiges.$pLvl.next") ?:
+            val nextPrestige = core.files.prestige.cfg.getString("levels.$pLvl.next") ?:
                 return sendMessage(player, "&cYou are already max rank and max prestige!")
+            val displayNxt = core.files.prestige.cfg.getString("levels.$nextPrestige.raw") ?: nextPrestige
 
             // confirm that the user wants to prestige
             sendConfirmMsg(core, player,
-                "&7Are you sure you want to prestige to &b$nextPrestige&7? This will reset your rank and level, and set your balance to 0!"
+                "&cYou are about to prestige. This will reset your rank and balance. Are you sure?"
             ) { _, pl, confirmed ->
                 if (confirmed) {
                     val f = core.userFiles[pl.uniqueId] ?:
@@ -45,15 +47,16 @@ class RankupCommand(val core: QuarkCore) : CoreCMD(core, "rankup", "/rankup",
                     f.setPrestigeLvl(nextPrestige)
                     // get the default rank and set the player to it
                     val defaultRank = core.files.prestige.cfg.getString("default_rank") ?:
-                        return@sendConfirmMsg sendMessage(pl, "&cAn error occured trying to retrieve the default rank. Please contact an administrator.")
-                    f.setRank(defaultRank)
+                        return@sendConfirmMsg sendMessage(pl, "&cAn error occurred trying to retrieve the default rank. Please contact an administrator.")
+                    f.setPrestigeRank(defaultRank)
 
                     // remove the money from the players account
                     f.setBal(0L)
 
                     // send message
                     sendMessage(pl,
-                        "&7You have prestiged to &b$nextPrestige&7! Your rank is now &b$defaultRank&7, and your balance is &b0&7.")
+                        "&7You have prestiged to &b$displayNxt&7! Your rank is now &b$defaultRank&7, and your balance is &b0&7.")
+                    serverBroadcast("&b${pl.name}&7 has prestiged to &b$displayNxt&7!")
                 } else {
                     sendMessage(pl, "&7You have canceled your prestige.")
                 }
@@ -70,7 +73,7 @@ class RankupCommand(val core: QuarkCore) : CoreCMD(core, "rankup", "/rankup",
                     return@sendConfirmMsg sendMessage(player, "&cAn error occurred while loading your data. Please relog.")
 
                 // set the player to the next rank
-                f.setRank(nextRank)
+                f.setPrestigeRank(nextRank)
 
                 // remove the money from the players account
                 f.rmFromBal(rankupCost.toLong())

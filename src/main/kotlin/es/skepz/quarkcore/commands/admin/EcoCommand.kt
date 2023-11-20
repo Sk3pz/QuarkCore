@@ -29,7 +29,7 @@ class EcoCommand(val core: QuarkCore) : CoreCMD(core, "eco", "/eco <give|take|se
                 val amount = args[2].toIntOrNull() ?: return sendMessage(sender, "&cInvalid amount.")
                 file.cfg.set("balance", file.cfg.getInt("balance") + amount)
                 file.save()
-                sendMessage(sender, "&7You have given &b$target &7$amount &7coins.")
+                sendMessage(sender, "&7You have given &b$target &7$&b$amount&7.")
             }
             "take" -> {
                 if (args.size != 3) {
@@ -38,7 +38,7 @@ class EcoCommand(val core: QuarkCore) : CoreCMD(core, "eco", "/eco <give|take|se
                 val amount = args[2].toIntOrNull() ?: return sendMessage(sender, "&cInvalid amount.")
                 file.cfg.set("balance", file.cfg.getInt("balance") - amount)
                 file.save()
-                sendMessage(sender, "&7You have taken &b$amount &7coins from &b$target&7.")
+                sendMessage(sender, "&7You have taken $&b$amount &7from &b$target&7.")
             }
             "set" -> {
                 if (args.size != 3) {
@@ -47,10 +47,10 @@ class EcoCommand(val core: QuarkCore) : CoreCMD(core, "eco", "/eco <give|take|se
                 val amount = args[2].toIntOrNull() ?: return sendMessage(sender, "&cInvalid amount.")
                 file.cfg.set("balance", amount)
                 file.save()
-                sendMessage(sender, "&7You have set &b$target&7's balance to &b$amount&7.")
+                sendMessage(sender, "&7You have set &b$target&7's balance to $&b$amount&7.")
             }
             "check" -> {
-                sendMessage(sender, "&7$target&7's balance: &b${file.cfg.getInt("balance")}&7.")
+                sendMessage(sender, "&7$target&7's balance: $&b${file.cfg.getInt("balance")}&7.")
             }
             else -> {
                 sendMessage(sender, "&cInvalid mode. Valid modes: give, take, set.")

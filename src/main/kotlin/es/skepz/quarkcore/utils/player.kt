@@ -7,6 +7,29 @@ import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerLoginEvent
 
+fun refreshPermissions(plugin: QuarkCore, player: Player) {
+    // remove current permissions
+    player.recalculatePermissions()
+    for (attachment in player.effectivePermissions) {
+        val attch = attachment.attachment ?: continue
+        player.removeAttachment(attch)
+    }
+
+    val file = UserFile(plugin, player)
+
+    // give players the permissions that they should have
+    val rank = file.getRank()
+    val rankPerms = plugin.files.ranks.cfg.getStringList("ranks.$rank.permissions")
+    val op = plugin.files.ranks.cfg.getBoolean("ranks.$rank.isOp")
+
+    for (perm in rankPerms) {
+        player.addAttachment(plugin, perm, true)
+    }
+    player.recalculatePermissions()
+
+    player.isOp = op
+}
+
 fun login(plugin: QuarkCore, player: Player, event: PlayerLoginEvent): Boolean {
     // create user file
     val file = UserFile(plugin, player)
@@ -20,6 +43,9 @@ fun login(plugin: QuarkCore, player: Player, event: PlayerLoginEvent): Boolean {
         event.disallow(PlayerLoginEvent.Result.KICK_BANNED, event.kickMessage())
         return false
     }
+
+    refreshPermissions(plugin, player)
+
     return true
 }
 
@@ -35,14 +61,23 @@ fun reloadLogin(plugin: QuarkCore, player: Player) {
                 (if (file.banTime() == -1L) "&cThis ban is permanent." else "&cBanned until: &4${file.bannedUntil()}"))))
         return
     }
+
+    // give players the permissions that they should have
+    refreshPermissions(plugin, player)
 }
 
 fun logout(plugin: QuarkCore, player: Player) {
     val file = plugin.userFiles[player.uniqueId]!!
     file.setLastLogoff()
     plugin.userFiles.remove(player.uniqueId)
+    plugin.tpaRequests.remove(player.uniqueId)
+    plugin.tpahereRequests.remove(player.uniqueId)
+    plugin.confirmMap.remove(player.uniqueId)
 }
 
 fun reloadLogout(plugin: QuarkCore, player: Player) {
     plugin.userFiles.remove(player.uniqueId)
+    plugin.tpaRequests.remove(player.uniqueId)
+    plugin.tpahereRequests.remove(player.uniqueId)
+    plugin.confirmMap.remove(player.uniqueId)
 }

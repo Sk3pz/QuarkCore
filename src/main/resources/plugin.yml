@@ -11,6 +11,8 @@ commands:
   economy:
     description: manage player's balances (add, remove, set)
     aliases: eco
+  rank:
+    description: edit and set ranks
 
   rankup:
     description: rankup command
@@ -18,6 +20,9 @@ commands:
   balance:
     description: check your balance
     aliases: bal
+  pay:
+    description: pay a player
+
   tpa:
     description: request to teleport to a player
   tphere:
@@ -33,3 +38,9 @@ commands:
     aliases: tpacancel
   tplist:
     description: list any incoming requests to teleport
+
+  quark_confirm:
+    description: confirm when prompted
+    visible: false
+  quark_cancel:
+    description: cancel when prompted

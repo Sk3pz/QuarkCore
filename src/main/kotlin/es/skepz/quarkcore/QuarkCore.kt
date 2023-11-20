@@ -1,9 +1,13 @@
 package es.skepz.quarkcore
 
-import es.skepz.quarkcore.commands.BalanceCommand
+import es.skepz.quarkcore.commands.economy.BalanceCommand
 import es.skepz.quarkcore.commands.RankupCommand
 import es.skepz.quarkcore.commands.admin.ConfigsCommand
 import es.skepz.quarkcore.commands.admin.EcoCommand
+import es.skepz.quarkcore.commands.admin.RankCommand
+import es.skepz.quarkcore.commands.confirmation.QuarkCancelCommand
+import es.skepz.quarkcore.commands.confirmation.QuarkConfirmCommand
+import es.skepz.quarkcore.commands.economy.PayCommand
 import es.skepz.quarkcore.commands.tpa.*
 import es.skepz.quarkcore.events.EventPlayerChat
 import es.skepz.quarkcore.events.EventPlayerJoin
@@ -25,7 +29,9 @@ class QuarkCore : JavaPlugin() {
     val confirmMap = HashMap<UUID, (core: QuarkCore, player: Player, confirm: Boolean) -> Unit>()
 
     override fun onEnable() {
-        // register commands
+        // # Register Commands
+
+        // tpa
         TpaCommand(this).register()
         TphereCommand(this).register()
         TpaCancel(this).register()
@@ -33,14 +39,23 @@ class QuarkCore : JavaPlugin() {
         TpdenyCommand(this).register()
         TplistCommand(this).register()
 
-        RankupCommand(this).register()
+        // economy
         BalanceCommand(this).register()
+        PayCommand(this).register()
 
-        // register admin commands
+        // confirmation
+        QuarkCancelCommand(this).register()
+        QuarkConfirmCommand(this).register()
+
+        // other
+        RankupCommand(this).register()
+
+        // admin commands
         ConfigsCommand(this).register()
         EcoCommand(this).register()
+        RankCommand(this).register()
 
-        // register events
+        // # Register Events
         EventPlayerJoin(this).register()
         EventPlayerChat(this).register()
 
