@@ -7,3 +7,18 @@ author: 'Skepz'
 commands:
   cfgreload:
     description: reload the config files
+  tpa:
+    description: request to teleport to a player
+  tphere:
+    description: request to teleport a player to you
+    aliases: tpahere
+  tpaccept:
+    description: accept a request for teleportation
+  tpdeny:
+    description: deny a request for teleportation
+    aliases: tpadeny
+  tpcancel:
+    description: cancel a request you sent for teleportation
+    aliases: tpacancel
+  tplist:
+    description: list any incoming requests to teleport

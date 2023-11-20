@@ -101,7 +101,7 @@ class ServerFiles(val plugin: QuarkCore) {
         for (x in defaultPrestige.indices) {
             val c = chars[x]
             val next = if (x == defaultPrestige.length - 1) {
-                chars.first()
+                '*'
             } else {
                 chars[x + 1]
             }

@@ -1,4 +1,4 @@
-package es.skepz.quarkcore.commands
+package es.skepz.quarkcore.commands.admin
 
 import es.skepz.quarkcore.QuarkCore
 import es.skepz.quarkcore.tuodlib.sendMessage
@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender
 
 class ConfigsCommand(private val quarkCore: QuarkCore) : CoreCMD(quarkCore, "cfgreload", "/cfgreload",
     0, "quark.configs", false, false) {
-    override fun Context.run() {
+    override fun run() {
         quarkCore.files.reload()
         quarkCore.userFiles.values.forEach { it.reload() }
         sendMessage(sender, "&aReloaded all configs.")

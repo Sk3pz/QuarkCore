@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
+import java.util.ArrayList
 
 abstract class CoreCMD protected constructor(
     private val plugin: JavaPlugin,
@@ -18,15 +19,22 @@ abstract class CoreCMD protected constructor(
     var tabCom: Boolean
 ) : CommandExecutor, TabCompleter {
 
-    class Context(val sender: CommandSender, val args: Array<String>)
-
+    lateinit var sender: CommandSender
+    lateinit var args: ArrayList<String>
     var helpMessage: String = "&7Usage: &c$usage"
 
-    abstract fun Context.run()
+    abstract fun run()
     abstract fun registerTabComplete(sender: CommandSender, args: Array<String>): List<String>
 
     override fun onTabComplete(sender: CommandSender, cmd: Command, alias: String, args: Array<String>): List<String> {
         return registerTabComplete(sender, args)
+    }
+
+    private val isPlayer: Boolean
+        get() = sender is Player
+
+    fun getPlayer(): Player? {
+        return if (isPlayer) sender as Player else null
     }
 
     fun register() {
@@ -41,11 +49,11 @@ abstract class CoreCMD protected constructor(
         }
     }
 
-    fun Context.invalidUse() {
+    fun invalidUse() {
         invalidCmdUsage(sender, usage)
     }
 
-    fun Context.requirePlayer(): Boolean {
+    fun requirePlayer(): Boolean {
         if (sender !is Player) {
             notPlayer(sender)
         }
@@ -78,7 +86,7 @@ abstract class CoreCMD protected constructor(
         }
 
 
-        Context(sender, args).run() // run the main code
+        run() // run the main code
 
         return true
     }

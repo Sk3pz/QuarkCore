@@ -1,6 +1,7 @@
 package es.skepz.quarkcore
 
-import es.skepz.quarkcore.commands.ConfigsCommand
+import es.skepz.quarkcore.commands.admin.ConfigsCommand
+import es.skepz.quarkcore.commands.tpa.*
 import es.skepz.quarkcore.events.EventPlayerChat
 import es.skepz.quarkcore.events.EventPlayerJoin
 import es.skepz.quarkcore.files.ServerFiles
@@ -10,29 +11,23 @@ import es.skepz.quarkcore.utils.reloadLogout
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
-/***
- * TODO:
- *   - creating, deleting, and teleporting to worlds
- *   - warps
- *   - /spawn
- *   - /tpa and associated commands
- *   - custom items config
- *   - prison mines
- *   - prison prestige system
- *   - regular ranks
- *   - chat filter
- *   - /rules
- *   - /help
- *   - admin commands
- */
-
 class QuarkCore : JavaPlugin() {
 
     val files = ServerFiles(this)
     val userFiles = mutableMapOf<UUID, UserFile>()
+    val tpaRequests = HashMap<UUID, UUID>()
+    val tpahereRequests = HashMap<UUID, UUID>()
 
     override fun onEnable() {
         // register commands
+        TpaCommand(this).register()
+        TphereCommand(this).register()
+        TpaCancel(this).register()
+        TpacceptCommand(this).register()
+        TpdenyCommand(this).register()
+        TplistCommand(this).register()
+
+        // register admin commands
         ConfigsCommand(this).register()
 
         // register events

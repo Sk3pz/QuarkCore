@@ -6,14 +6,6 @@ import es.skepz.quarkcore.tuodlib.colorize
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerLoginEvent
-import java.util.*
-
-fun getUserFile(plugin: QuarkCore, player: Player): UserFile {
-    return UserFile(plugin, player)
-}
-fun getUserFile(plugin: QuarkCore, player: UUID): UserFile? {
-    return plugin.userFiles[player]
-}
 
 fun login(plugin: QuarkCore, player: Player, event: PlayerLoginEvent): Boolean {
     // create user file
