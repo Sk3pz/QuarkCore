@@ -27,7 +27,7 @@ class EventPlayerChat(private val quark: QuarkCore): CoreEvent(quark) {
         if (quark.confirmMap.containsKey(player.uniqueId)) {
             val confirm = quark.confirmMap[player.uniqueId]!!
             quark.confirmMap.remove(player.uniqueId)
-            confirm(player, msgPlain == "" || msgPlain == "y" || msgPlain == "yes")
+            confirm(quark, player, msgPlain == "" || msgPlain == "y" || msgPlain == "yes")
             return
         }
 
