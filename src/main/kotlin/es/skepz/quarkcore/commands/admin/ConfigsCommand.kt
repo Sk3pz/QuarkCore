@@ -1,8 +1,8 @@
 package es.skepz.quarkcore.commands.admin
 
 import es.skepz.quarkcore.QuarkCore
-import es.skepz.quarkcore.tuodlib.sendMessage
-import es.skepz.quarkcore.tuodlib.wrappers.CoreCMD
+import es.skepz.quarkcore.skepzlib.sendMessage
+import es.skepz.quarkcore.skepzlib.wrappers.CoreCMD
 import org.bukkit.command.CommandSender
 
 class ConfigsCommand(private val quarkCore: QuarkCore) : CoreCMD(quarkCore, "cfgreload", "/cfgreload",

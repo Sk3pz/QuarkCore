@@ -1,10 +1,10 @@
 package es.skepz.quarkcore.commands.tpa
 
 import es.skepz.quarkcore.QuarkCore
-import es.skepz.quarkcore.tuodlib.IMessage
-import es.skepz.quarkcore.tuodlib.playSound
-import es.skepz.quarkcore.tuodlib.sendMessage
-import es.skepz.quarkcore.tuodlib.wrappers.CoreCMD
+import es.skepz.quarkcore.skepzlib.IMessage
+import es.skepz.quarkcore.skepzlib.playSound
+import es.skepz.quarkcore.skepzlib.sendMessage
+import es.skepz.quarkcore.skepzlib.wrappers.CoreCMD
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.CommandSender

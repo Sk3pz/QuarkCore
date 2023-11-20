@@ -1,7 +1,7 @@
 package es.skepz.quarkcore.files
 
 import es.skepz.quarkcore.QuarkCore
-import es.skepz.quarkcore.tuodlib.wrappers.CFGFile
+import es.skepz.quarkcore.skepzlib.wrappers.CFGFile
 import org.bukkit.entity.Player
 import java.text.SimpleDateFormat
 import java.util.*

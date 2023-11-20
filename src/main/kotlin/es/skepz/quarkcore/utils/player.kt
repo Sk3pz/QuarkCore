@@ -2,7 +2,7 @@ package es.skepz.quarkcore.utils
 
 import es.skepz.quarkcore.QuarkCore
 import es.skepz.quarkcore.files.UserFile
-import es.skepz.quarkcore.tuodlib.colorize
+import es.skepz.quarkcore.skepzlib.colorize
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerLoginEvent

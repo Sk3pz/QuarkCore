@@ -1,8 +1,8 @@
 package es.skepz.quarkcore.events
 
 import es.skepz.quarkcore.QuarkCore
-import es.skepz.quarkcore.tuodlib.*
-import es.skepz.quarkcore.tuodlib.wrappers.CoreEvent
+import es.skepz.quarkcore.skepzlib.*
+import es.skepz.quarkcore.skepzlib.wrappers.CoreEvent
 import es.skepz.quarkcore.utils.getSpawn
 import es.skepz.quarkcore.utils.login
 import net.kyori.adventure.text.Component

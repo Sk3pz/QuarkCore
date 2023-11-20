@@ -2,12 +2,11 @@ package es.skepz.quarkcore.events
 
 import es.skepz.quarkcore.QuarkCore
 import es.skepz.quarkcore.files.UserFile
-import es.skepz.quarkcore.tuodlib.colorize
-import es.skepz.quarkcore.tuodlib.invalid
-import es.skepz.quarkcore.tuodlib.serverBroadcast
-import es.skepz.quarkcore.tuodlib.wrappers.CoreEvent
+import es.skepz.quarkcore.skepzlib.colorize
+import es.skepz.quarkcore.skepzlib.invalid
+import es.skepz.quarkcore.skepzlib.serverBroadcast
+import es.skepz.quarkcore.skepzlib.wrappers.CoreEvent
 import io.papermc.paper.event.player.AsyncChatEvent
-import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.event.EventHandler
 import java.util.*
@@ -17,10 +16,19 @@ class EventPlayerChat(private val quark: QuarkCore): CoreEvent(quark) {
     @EventHandler
     fun onChat(event: AsyncChatEvent) {
         event.isCancelled = true
+        var msgPlain = PlainTextComponentSerializer.plainText().serialize(event.message())
 
         val player = event.player
         if (quark.userFiles[player.uniqueId] == null) {
             quark.userFiles[player.uniqueId] = UserFile(quark, player)
+        }
+
+        // check if confirming, if so run the confirm function
+        if (quark.confirmMap.containsKey(player.uniqueId)) {
+            val confirm = quark.confirmMap[player.uniqueId]!!
+            quark.confirmMap.remove(player.uniqueId)
+            confirm(player, msgPlain == "" || msgPlain == "y" || msgPlain == "yes")
+            return
         }
 
         // mute check
@@ -43,8 +51,6 @@ class EventPlayerChat(private val quark: QuarkCore): CoreEvent(quark) {
 
         val pLvl = file.getPrestigeLvl()
         val prestigeLvlDisplay = quark.files.getPrestigeLvlDisplay(pLvl)
-
-        var msgPlain = PlainTextComponentSerializer.plainText().serialize(event.message())
 
         // filter chat
         if (!(player.isOp && quark.files.config.cfg.getBoolean("op-override-filter"))) {

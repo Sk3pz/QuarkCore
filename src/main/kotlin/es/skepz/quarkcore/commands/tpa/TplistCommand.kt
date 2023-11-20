@@ -1,8 +1,8 @@
 package es.skepz.quarkcore.commands.tpa
 
 import es.skepz.quarkcore.QuarkCore
-import es.skepz.quarkcore.tuodlib.IMessage
-import es.skepz.quarkcore.tuodlib.wrappers.CoreCMD
+import es.skepz.quarkcore.skepzlib.IMessage
+import es.skepz.quarkcore.skepzlib.wrappers.CoreCMD
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import java.util.*

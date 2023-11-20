@@ -1,7 +1,7 @@
 package es.skepz.quarkcore.files
 
 import es.skepz.quarkcore.QuarkCore
-import es.skepz.quarkcore.tuodlib.wrappers.CFGFile
+import es.skepz.quarkcore.skepzlib.wrappers.CFGFile
 
 class ServerFiles(val plugin: QuarkCore) {
 
@@ -84,16 +84,36 @@ class ServerFiles(val plugin: QuarkCore) {
         restore()
     }
 
-    fun defaultPrestige() {
+    private fun defaultPrestige() {
         prestige.default("default_level", "0")
+        prestige.default("default_rank", "a")
 
-        prestige.default("levels.zero", "&8&l0")
-        prestige.default("levels.one", "&7&l1")
-        prestige.default("levels.two", "&a&l2")
-        prestige.default("levels.three", "&d&l3")
-        prestige.default("levels.four", "&c&l4")
-        prestige.default("levels.five", "&e&l5")
-        prestige.default("levels.free", "&6&lFree")
+        prestige.default("levels.zero.prefix", "&8&l0")
+        prestige.default("levels.zero.next", "one")
+        prestige.default("levels.zero.raw", "0")
+
+        prestige.default("levels.one.prefix", "&7&l1")
+        prestige.default("levels.one.next", "two")
+        prestige.default("levels.one.raw", "1")
+
+        prestige.default("levels.two.prefix", "&a&l2")
+        prestige.default("levels.two.next", "three")
+        prestige.default("levels.two.raw", "2")
+
+        prestige.default("levels.three.prefix", "&d&l3")
+        prestige.default("levels.three.next", "four")
+        prestige.default("levels.three.raw", "3")
+
+        prestige.default("levels.four.prefix", "&b&l4")
+        prestige.default("levels.four.next", "five")
+        prestige.default("levels.four.raw", "4")
+
+        prestige.default("levels.five.prefix", "&e&l5")
+        prestige.default("levels.five.next", "free")
+        prestige.default("levels.five.raw", "5")
+
+        prestige.default("levels.free.prefix", "&6&lFree")
+        prestige.default("levels.free.raw", "Free")
 
         val defaultPrestige = "abcdefghijklmnopqrstuvwxyz"
         val chars = defaultPrestige.toCharArray()
@@ -101,7 +121,7 @@ class ServerFiles(val plugin: QuarkCore) {
         for (x in defaultPrestige.indices) {
             val c = chars[x]
             val next = if (x == defaultPrestige.length - 1) {
-                '*'
+                "none"
             } else {
                 chars[x + 1]
             }

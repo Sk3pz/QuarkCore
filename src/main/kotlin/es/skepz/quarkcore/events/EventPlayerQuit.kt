@@ -1,8 +1,8 @@
 package es.skepz.quarkcore.events
 
 import es.skepz.quarkcore.QuarkCore
-import es.skepz.quarkcore.tuodlib.colorize
-import es.skepz.quarkcore.tuodlib.wrappers.CoreEvent
+import es.skepz.quarkcore.skepzlib.colorize
+import es.skepz.quarkcore.skepzlib.wrappers.CoreEvent
 import es.skepz.quarkcore.utils.logout
 import net.kyori.adventure.text.Component
 import org.bukkit.event.EventHandler
