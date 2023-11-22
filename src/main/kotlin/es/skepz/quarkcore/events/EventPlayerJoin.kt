@@ -17,14 +17,14 @@ class EventPlayerJoin(private val quark: QuarkCore) : CoreEvent(quark) {
         event.joinMessage(Component.text(colorize("&8(&a+&8) &7${event.player.name}")))
 
         if (!event.player.hasPlayedBefore()) {
-            serverBroadcast("${cPri()}Please welcome ${cFoc()}${event.player.name} ${cPri()}to the server!")
+            serverBroadcast("&7Please welcome &b${event.player.name} &7to the server!")
             event.player.teleport(getSpawn(quark))
         }
 
-        info(event.player, "Welcome to the server!", "Thanks for playing!", "${cPri()}Welcome to the server!\n" +
-                "${cPri()}Be sure to do ${cFoc()}/rules${cPri()} to read the rules!\n" +
-                "${cPri()}Do ${cFoc()}/spawn ${cPri()}to go to spawn!\n" +
-                "${cPri()}Dont be afraid to ask staff for help!")
+        info(event.player, "Welcome to the server!", "Thanks for playing!", "&7Welcome to the server!\n" +
+                "&7Be sure to do &3/rules&7 to read the rules!\n" +
+                "&7Do &b/spawn &3to go to spawn!\n" +
+                "&7Dont be afraid to ask staff for help!")
     }
 
     @EventHandler

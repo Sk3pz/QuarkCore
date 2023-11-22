@@ -2,6 +2,8 @@ package es.skepz.quarkcore.utils
 
 import org.bukkit.Location
 import es.skepz.quarkcore.QuarkCore
+import es.skepz.quarkcore.files.UserFile
+import org.bukkit.entity.Player
 import java.util.*
 
 fun setWarp(plugin: QuarkCore, name: String, loc: Location) {
@@ -58,4 +60,11 @@ fun setSpawn(plugin: QuarkCore, loc: Location) {
     data["spawn.z"] = loc.z
     data["spawn.pitch"] = loc.pitch
     data["spawn.yaw"] = loc.yaw
+}
+
+fun getUserFile(core: QuarkCore, player: Player): UserFile {
+    if (core.userFiles.contains(player.uniqueId)) return core.userFiles[player.uniqueId]!!
+    val file = UserFile(core, player)
+    core.userFiles[player.uniqueId] = file
+    return file
 }

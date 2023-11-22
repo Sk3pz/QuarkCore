@@ -3,24 +3,25 @@ package es.skepz.quarkcore.commands.admin
 import es.skepz.quarkcore.QuarkCore
 import es.skepz.quarkcore.skepzlib.sendMessage
 import es.skepz.quarkcore.skepzlib.wrappers.CoreCMD
+import es.skepz.quarkcore.utils.getUserFile
 import es.skepz.quarkcore.utils.refreshPermissions
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
 
 class RankCommand(val core: QuarkCore) : CoreCMD(core, "rank", "/rank <create|edit|set|delete|list> <args>",
-    2, "quarkcore.rank", false, true) {
+    2, "quarkcore.command.rank", false, true) {
     override fun run() {
 
         when (args[0]) {
             "create" -> {
                 if (args.size != 2) {
-                    sender.sendMessage("§cInvalid usage. /rank create <name>")
+                    sendMessage(sender, "&cInvalid usage. /rank create <name>")
                     return
                 }
 
                 val rank = args[1]
                 if (core.files.ranks.cfg.contains("ranks.$rank")) {
-                    sender.sendMessage("§cRank already exists.")
+                    sendMessage(sender, "&cRank already exists.")
                     return
                 }
 
@@ -28,41 +29,43 @@ class RankCommand(val core: QuarkCore) : CoreCMD(core, "rank", "/rank <create|ed
                 core.files.ranks["ranks.$rank.prefix"] = ""
                 core.files.ranks["ranks.$rank.nameColor"] = "&8"
                 core.files.ranks["ranks.$rank.permissions"] = listOf("")
-                sendMessage(sender, "§aRank created.")
+                sendMessage(sender, "&7Rank created.")
             }
             "set" -> {
                 if (args.size != 3) {
-                    sender.sendMessage("§cInvalid usage.")
+                    sendMessage(sender, "&cInvalid usage.")
                     return
                 }
                 val player = core.server.getPlayer(args[1])
                 if (player == null) {
-                    sender.sendMessage("§cPlayer not found.")
+                    sendMessage(sender, "&cPlayer not found.")
                     return
                 }
 
                 val rank = args[2]
                 if (!core.files.ranks.cfg.contains("ranks.$rank")) {
-                    sender.sendMessage("§cRank not found.")
+                    sendMessage(sender, "&cRank not found.")
                     return
                 }
 
-                val file = core.userFiles[player.uniqueId] ?: return sendMessage(sender, "&cFailed to get target's user file.")
+                val file = getUserFile(core, player)
 
                 file.setRank(rank)
                 refreshPermissions(core, player)
-                sender.sendMessage("§aRank set.")
+                sendMessage(sender, "&7Rank set.")
+                // send a message to the player
+                sendMessage(player, "&7Your rank has been set to &b$rank")
             }
             "edit" -> {
                 // edit <rank> <prefix|nameColor|permissions> <value>
                 if (args.size < 4) {
-                    sender.sendMessage("§cInvalid usage.")
+                    sendMessage(sender, "&cInvalid usage.")
                     return
                 }
 
                 val rank = args[1]
                 if (!core.files.ranks.cfg.contains("ranks.$rank")) {
-                    sender.sendMessage("§cRank not found. do /rank create <name> to create a new rank.")
+                    sendMessage(sender, "&cRank not found. do &f/rank create <name> &cto create a new rank.")
                     return
                 }
 
@@ -71,27 +74,27 @@ class RankCommand(val core: QuarkCore) : CoreCMD(core, "rank", "/rank <create|ed
                     "prefix" -> {
                         // edit <rank> prefix <value>
                         if (args.size != 4) {
-                            sender.sendMessage("§cInvalid usage.")
+                            sendMessage(sender, "&cInvalid usage.")
                             return
                         }
                         val prefix = args[3]
                         core.files.ranks["ranks.$rank.prefix"] = prefix
-                        sender.sendMessage("§aPrefix set.")
+                        sendMessage(sender, "&7Prefix set.")
                     }
                     "nameColor" -> {
                         // edit <rank> nameColor <value>
                         if (args.size != 4) {
-                            sender.sendMessage("§cInvalid usage.")
+                            sendMessage(sender, "&cInvalid usage.")
                             return
                         }
                         val nameColor = args[3]
                         core.files.ranks["ranks.$rank.nameColor"] = nameColor
-                        sender.sendMessage("§aName color set.")
+                        sendMessage(sender, "&7Name color set.")
                     }
                     "permissions" -> {
                         // edit <rank> permissions <add|remove> <permission>
                         if (args.size != 5) {
-                            sender.sendMessage("§cInvalid usage.")
+                            sendMessage(sender, "&cInvalid usage.")
                             return
                         }
                         val action = args[3]
@@ -101,34 +104,34 @@ class RankCommand(val core: QuarkCore) : CoreCMD(core, "rank", "/rank <create|ed
                             "add" -> {
                                 permissions.add(permission)
                                 core.files.ranks["ranks.$rank.permissions"] = permissions
-                                sender.sendMessage("§aPermission added.")
+                                sendMessage(sender, "&7Permission added.")
                             }
                             "remove" -> {
                                 permissions.remove(permission)
                                 core.files.ranks["ranks.$rank.permissions"] = permissions
-                                sender.sendMessage("§aPermission removed.")
+                                sendMessage(sender, "&7Permission removed.")
                             }
-                            else -> sender.sendMessage("§cInvalid action.")
+                            else -> sendMessage(sender, "&cInvalid action.")
                         }
                     }
-                    else -> sender.sendMessage("§cInvalid value.")
+                    else -> sendMessage(sender, "&cInvalid value.")
                 }
             }
             "delete" -> {
                 val rank = args[1]
                 if (!core.files.ranks.cfg.contains("ranks.$rank")) {
-                    sender.sendMessage("§cRank not found. do /rank create <name> to create a new rank.")
+                    sendMessage(sender, "&cRank not found. do /rank create <name> to create a new rank.")
                     return
                 }
                 core.files.ranks["ranks.$rank"] = null
-                sender.sendMessage("§aRank deleted.")
+                sendMessage(sender, "&7Rank deleted.")
 
             }
             "list" -> {
                 val ranks = core.files.ranks.cfg.getConfigurationSection("ranks")?.getKeys(false) ?: emptySet()
-                sendMessage(sender, "§7Ranks: §b${ranks.joinToString("&7, &b")}")
+                sendMessage(sender, "&7Ranks: &b${ranks.joinToString("&7, &b")}")
             }
-            else -> sender.sendMessage("§cInvalid subcommand.")
+            else -> sendMessage(sender, "&cInvalid subcommand.")
         }
     }
 

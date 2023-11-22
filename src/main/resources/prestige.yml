@@ -32,104 +32,130 @@ ranks:
   a:
     chat_color: '&c&l'
     next: b
+    available_mines: "a"
     next_cost: 1000
   b:
     chat_color: '&c&l'
     next: c
+    available_mines: "ab"
     next_cost: 2000
   c:
     chat_color: '&c&l'
     next: d
+    available_mines: "abc"
     next_cost: 3000
   d:
     chat_color: '&c&l'
     next: e
+    available_mines: "abcd"
     next_cost: 4000
   e:
     chat_color: '&c&l'
     next: f
+    available_mines: "abcde"
     next_cost: 5000
   f:
     chat_color: '&c&l'
     next: g
+    available_mines: "abcdef"
     next_cost: 6000
   g:
     chat_color: '&c&l'
     next: h
+    available_mines: "abcdefg"
     next_cost: 7000
   h:
     chat_color: '&c&l'
     next: i
+    available_mines: "abdefgh"
     next_cost: 8000
   i:
     chat_color: '&c&l'
     next: j
+    available_mines: "abdefghi"
     next_cost: 9000
   j:
     chat_color: '&c&l'
     next: k
+    available_mines: "abdefghij"
     next_cost: 10000
   k:
     chat_color: '&c&l'
     next: l
+    available_mines: "abdefghijk"
     next_cost: 11000
   l:
     chat_color: '&c&l'
     next: m
+    available_mines: "abdefghijkl"
     next_cost: 12000
   m:
     chat_color: '&c&l'
     next: n
+    available_mines: "abdefghijklm"
     next_cost: 13000
   n:
     chat_color: '&c&l'
     next: o
+    available_mines: "abdefghijklmn"
     next_cost: 14000
   o:
     chat_color: '&c&l'
     next: p
+    available_mines: "abdefghijklmno"
     next_cost: 15000
   p:
     chat_color: '&c&l'
     next: q
+    available_mines: "abdefghijklmnop"
     next_cost: 16000
   q:
     chat_color: '&c&l'
     next: r
+    available_mines: "abdefghijklmnopq"
     next_cost: 17000
   r:
     chat_color: '&c&l'
     next: s
+    available_mines: "abdefghijklmnopqr"
     next_cost: 18000
   s:
     chat_color: '&c&l'
     next: t
+    available_mines: "abdefghijklmnopqrs"
     next_cost: 19000
   t:
     chat_color: '&c&l'
     next: u
+    available_mines: "abdefghijklmnopqrst"
     next_cost: 20000
   u:
     chat_color: '&c&l'
     next: v
+    available_mines: "abdefghijklmnopqrstu"
     next_cost: 21000
   v:
     chat_color: '&c&l'
     next: w
+    available_mines: "abdefghijklmnopqrstuv"
     next_cost: 22000
   w:
     chat_color: '&c&l'
     next: x
+    available_mines: "abdefghijklmnopqrstuvw"
     next_cost: 23000
   x:
     chat_color: '&c&l'
     next: y
+    available_mines: "abdefghijklmnopqrstuvwx"
     next_cost: 24000
   y:
     chat_color: '&c&l'
     next: z
+    available_mines: "abdefghijklmnopqrstuvwxy"
     next_cost: 25000
   z:
     chat_color: '&c&l'
     next: none
+    available_mines: "abdefghijklmnopqrstuvwxyz"
     next_cost: 26000

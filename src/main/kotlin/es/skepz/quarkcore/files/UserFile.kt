@@ -2,20 +2,22 @@ package es.skepz.quarkcore.files
 
 import es.skepz.quarkcore.QuarkCore
 import es.skepz.quarkcore.skepzlib.wrappers.CFGFile
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.text.SimpleDateFormat
 import java.util.*
 
-class UserFile(plugin: QuarkCore, player: Player) : CFGFile(plugin, player.uniqueId.toString(), "users") {
+class UserFile(plugin: QuarkCore, player: UUID) : CFGFile(plugin, player.toString(), "users") {
+
+    constructor(plugin: QuarkCore, player: Player) : this(plugin, player.uniqueId)
 
     init {
-        default("name", player.name)
+        default("name", Bukkit.getOfflinePlayer(player).name)
         default("rank", "default")
         default("prestige.level", "zero")
         default("prestige.rank", "a")
         default("balance", 100L)
 
-        default("punishments.amount-of.warnings", 0)
         default("punishments.amount-of.mutes", 0)
         default("punishments.amount-of.kicks", 0)
         default("punishments.amount-of.bans", 0)
@@ -97,16 +99,6 @@ class UserFile(plugin: QuarkCore, player: Player) : CFGFile(plugin, player.uniqu
         set("balance", getBal() - amount)
     }
 
-    fun getWarns(): Int {
-        reload()
-        return cfg.getInt("punishments.amount-of.warnings")
-    }
-    fun setWarns(amount: Int) {
-        set("punishments.amount-of.warnings", amount)
-    }
-    fun addWarn() {
-        setWarns(getWarns() + 1)
-    }
     fun getMutes(): Int {
         reload()
         return cfg.getInt("punishments.amount-of.mutes")
@@ -164,8 +156,8 @@ class UserFile(plugin: QuarkCore, player: Player) : CFGFile(plugin, player.uniqu
     }
     fun banTimeRemaining(): Long {
         reload()
-        if (!isBanned()) return -1L
-        return (banStart() + banTime()) - System.currentTimeMillis()
+        if (!cfg.getBoolean("punishments.banned.enabled")) return -1L
+        return banStart() + banTime()
     }
     fun shouldUnban(): Boolean {
         reload()
@@ -174,7 +166,7 @@ class UserFile(plugin: QuarkCore, player: Player) : CFGFile(plugin, player.uniqu
     }
     fun bannedUntil(): String {
         reload()
-        return SimpleDateFormat("MMM dd,yyyy HH:mm").format(Date(banTimeRemaining()))
+        return SimpleDateFormat("MMM dd, yyyy HH:mm").format(Date(banTimeRemaining()))
     }
     fun setBanned(reason: String, sender: String = "none", time: Long = -1L) {
         set("punishments.banned.enabled", true)
@@ -217,12 +209,12 @@ class UserFile(plugin: QuarkCore, player: Player) : CFGFile(plugin, player.uniqu
     }
     fun muteTimeRemaining(): Long {
         reload()
-        if (!isMuted()) return -1L
-        return (muteStart() + muteTime()) - System.currentTimeMillis()
+        if (!cfg.getBoolean("punishments.muted.enabled")) return -1L
+        return muteStart() + muteTime()
     }
     fun mutedUntil(): String {
         reload()
-        return SimpleDateFormat("MMM dd,yyyy HH:mm").format(Date(muteTimeRemaining()))
+        return SimpleDateFormat("MMM dd, yyyy HH:mm").format(Date(muteTimeRemaining()))
     }
     fun shouldUnmute(): Boolean {
         reload()

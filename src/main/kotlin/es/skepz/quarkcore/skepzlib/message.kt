@@ -9,39 +9,6 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-object Color {
-    const val PRIMARY = "&7"
-    const val FOCUSED = "&3"
-    const val SECONDARY = "&b"
-    const val ERROR_PRIMARY = "&4"
-    const val ERROR_SECONDARY = "&c"
-    const val ERROR_FOCUSED = "&f"
-}
-/***
- * @return returns the main (primary) color of the plugin
- ***/
-fun cPri(): String { return Color.PRIMARY }
-/***
- * @return returns the special (focused) color of the plugin
- ***/
-fun cFoc(): String { return Color.FOCUSED }
-/***
- * @return returns the secondary color of the plugin
- ***/
-fun cSnd(): String { return Color.SECONDARY }
-/***
- * @return returns the primary error color of the plugin
- ***/
-fun cErr(): String { return Color.ERROR_PRIMARY }
-/***
- * @return returns the secondary error color of the plugin
- ***/
-fun cESn(): String { return Color.ERROR_SECONDARY }
-/***
- * @return returns the focused error color of the plugin
- ***/
-fun cEFc(): String { return Color.ERROR_FOCUSED }
-
 /***
  * Sends a message to a player
  * @param user: The user to send the message to
@@ -67,11 +34,11 @@ fun actionbar(player: Player, message: String) {
  * @return the finished usage string
  ***/
 fun genUsage(usage: String, vararg argSections: List<String>): String {
-    var fin = "${cErr()}/$usage <"
+    var fin = "&c/$usage <"
     for (sec in argSections)
         for (x in 0..sec.size)
-            fin += if (x != sec.size - 1) "${cEFc()}${sec[x]}${cErr()}|" else "${cEFc()}${sec[x]}"
-    return "$fin${cErr()}>"
+            fin += if (x != sec.size - 1) "&f${sec[x]}&c|" else "&f${sec[x]}"
+    return "$fin&c>"
 }
 
 /***
@@ -80,7 +47,7 @@ fun genUsage(usage: String, vararg argSections: List<String>): String {
  * @param usage: the correct usage of the command
  ***/
 fun invalidCmdUsage(user: CommandSender, usage: String) {
-    sendMessage(user, "${cErr()}Invalid Use! Usage: ${cEFc()}$usage")
+    sendMessage(user, "&cInvalid Use! Usage: &f$usage")
 }
 
 /***
@@ -88,7 +55,7 @@ fun invalidCmdUsage(user: CommandSender, usage: String) {
  * @param user: the user to send the message to
  ***/
 fun noPerms(user: CommandSender) {
-    sendMessage(user, "${cErr()}You don't have permission to use this command!")
+    sendMessage(user, "&cYou don't have permission to use this command!")
 }
 
 /***
@@ -96,7 +63,7 @@ fun noPerms(user: CommandSender) {
  * @param user: the user to send the message to
  ***/
 fun notPlayer(user: CommandSender) {
-    sendMessage(user, "${cErr()}This player is either not online or does not exist!")
+    sendMessage(user, "&cThis player is either not online or does not exist!")
 }
 
 /***
@@ -104,7 +71,7 @@ fun notPlayer(user: CommandSender) {
  * @param user: the user to send the message to
  ***/
 fun requirePlayer(user: CommandSender) {
-    sendMessage(user, "${cErr()}You must be a player to use this command!")
+    sendMessage(user, "&cYou must be a player to use this command!")
 }
 
 /***
@@ -299,8 +266,8 @@ class IMessage {
  * @param toolTip: what to be displayed on hover
  ***/
 fun info(user: Player, title: String, subtitle: String, toolTip: String) {
-    IMessage("${cFoc()}$title").newLine()
-            .add("${cSnd()}$subtitle")
+    IMessage("&3$title").newLine()
+            .add("&b$subtitle")
             .newLine().newLine()
             .addHoverable(" &7&o[?] Hover over this for more information", toolTip)
             .send(user)
@@ -314,8 +281,8 @@ fun info(user: Player, title: String, subtitle: String, toolTip: String) {
  * @param toolTip: what to be displayed on hover
  ***/
 fun invalid(user: Player, title: String, subtitle: String, toolTip: String) {
-    IMessage("${cEFc()}$title").newLine()
-            .add("${cESn()}$subtitle")
+    IMessage("&c$title").newLine()
+            .add("&f$subtitle")
             .newLine().newLine()
             .addHoverable(" &7&o[?] Hover over this for more information", toolTip)
             .send(user)

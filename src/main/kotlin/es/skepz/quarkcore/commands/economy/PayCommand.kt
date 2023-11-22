@@ -3,6 +3,7 @@ package es.skepz.quarkcore.commands.economy
 import es.skepz.quarkcore.QuarkCore
 import es.skepz.quarkcore.skepzlib.sendMessage
 import es.skepz.quarkcore.skepzlib.wrappers.CoreCMD
+import es.skepz.quarkcore.utils.getUserFile
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
 
@@ -21,10 +22,10 @@ class PayCommand(val core: QuarkCore) : CoreCMD(core, "pay", "/pay <player> <amo
         val amount = args[1].toLongOrNull() ?: return sendMessage(sender, "&cInvalid amount.")
 
         // get the player's user file
-        val file = core.userFiles[player.uniqueId] ?: return sendMessage(sender, "&cCould not load your user file. Please relog.")
+        val file = getUserFile(core, player)
 
         // get the target's user file
-        val targetFile = core.userFiles[targetPlayer.uniqueId] ?: return sendMessage(sender, "&cFailed to retrieve file information.")
+        val targetFile = getUserFile(core, targetPlayer)
 
         val balance = file.getBal()
 
@@ -35,6 +36,7 @@ class PayCommand(val core: QuarkCore) : CoreCMD(core, "pay", "/pay <player> <amo
         targetFile.addToBal(amount)
         file.rmFromBal(amount)
         sendMessage(sender, "&7You have sent &b$target &7$&b$amount&7.")
+        sendMessage(targetPlayer, "&7You have received $&b$amount&7 from &b${player.name}&7.")
     }
 
     override fun registerTabComplete(sender: CommandSender, args: Array<String>): List<String> {

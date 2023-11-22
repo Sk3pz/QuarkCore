@@ -13,6 +13,9 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
+import kotlin.math.floor
+import kotlin.math.max
+import kotlin.math.min
 
 
 /***
@@ -119,6 +122,38 @@ fun scheduleParticles(plugin: JavaPlugin, loc: Location, particle: Particle, amo
  ***/
 fun random(min: Int, max: Int): Int {
     return Random().nextInt(max - min + 1) + min
+}
+
+fun loopThroughBlocks(pos1: Location, pos2: Location, run: (pos: Location) -> Unit) {
+    val minX = floor(min(pos1.x, pos2.x)).toInt()
+    val minY = floor(min(pos1.y, pos2.y)).toInt()
+    val minZ = floor(min(pos1.z, pos2.z)).toInt()
+
+    val maxX = floor(max(pos1.x, pos2.x)).toInt()
+    val maxY = floor(max(pos1.y, pos2.y)).toInt()
+    val maxZ = floor(max(pos1.z, pos2.z)).toInt()
+
+    for (x in minX..maxX) {
+        for (y in minY..maxY) {
+            for (z in minZ..maxZ) {
+                val block = Location(pos1.world, x.toDouble(), y.toDouble(), z.toDouble())
+                run(block)
+            }
+        }
+    }
+}
+
+fun isPosWithin(loc1: Location, loc2: Location, pos: Location): Boolean {
+    // check if pos is between loc1 and loc2, assuming loc1 and loc2 are corners of a cube
+    val minX = floor(min(loc1.x, loc2.x))
+    val minY = floor(min(loc1.y, loc2.y))
+    val minZ = floor(min(loc1.z, loc2.z))
+
+    val maxX = floor(max(loc1.x, loc2.x))
+    val maxY = floor(max(loc1.y, loc2.y))
+    val maxZ = floor(max(loc1.z, loc2.z))
+
+    return pos.x in minX..maxX && pos.y in minY..maxY && pos.z in minZ..maxZ
 }
 
 /***
@@ -292,10 +327,10 @@ fun getEnch(ench: Enchantment): String? {
  * @return the tooltip of the enchantment
  ***/
 fun genEnchTT(raw: String, name: String, goesOn: String, max: Int): String {
-    return "${cPri()}${raw.toUpperCase()}" +
-            "\n${cFoc()}name: ${cSnd()}$name" +
-            "\n${cFoc()}goes on: ${cSnd()}$goesOn" +
-            "\n${cFoc()}max value: ${cSnd()}$max"
+    return "&7${raw.toUpperCase()}" +
+            "\n&bname: &3$name" +
+            "\n&bgoes on: &3$goesOn" +
+            "\n&bmax value: &3$max"
 }
 
 /***

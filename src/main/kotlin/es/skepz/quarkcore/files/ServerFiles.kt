@@ -6,12 +6,13 @@ import java.io.File
 
 class ServerFiles(val plugin: QuarkCore) {
 
-    var config: CFGFile
+    var config: CFGFile = CFGFile(plugin, "config", "")
     var ranks: CFGFile
     var prestige: CFGFile
     var rules: CFGFile
     var filter: CFGFile
     var warps: CFGFile
+    var mines: CFGFile
 
     var data: CFGFile
 
@@ -29,6 +30,7 @@ class ServerFiles(val plugin: QuarkCore) {
         filter.reload()
         warps.reload()
         data.reload()
+        mines.reload()
     }
 
     fun restore() {
@@ -38,7 +40,9 @@ class ServerFiles(val plugin: QuarkCore) {
 
         config.default("prison-world", "prison")
         config.default("survival-world", "world")
+        config.default("mine-reset-percent", 40)
         config.default("op-override-filter", true)
+        config.default("can-place-in-mines", false)
 
         rules.default("rules", listOf("Be polite and respectful", "No cheating or using unfair game advantages",
             "No leaking personal information", "No arguing with the staff team", "No begging for a role"))
@@ -48,8 +52,6 @@ class ServerFiles(val plugin: QuarkCore) {
     }
 
     init {
-        config = CFGFile(plugin, "config", "")
-
         var file = File(plugin.dataFolder.toString(), "ranks.yml")
         if (!file.exists())
             plugin.saveResource("ranks.yml", false)
@@ -57,13 +59,14 @@ class ServerFiles(val plugin: QuarkCore) {
         if (!file.exists())
             plugin.saveResource("prestige.yml", false)
         prestige = CFGFile(plugin, "prestige", "")
-        ranks = CFGFile(plugin, "ranks", "")
+        ranks = CFGFile(plugin,    "ranks",    "")
 
-        rules = CFGFile(plugin, "rules",  "")
+        rules = CFGFile(plugin,  "rules",  "")
         filter = CFGFile(plugin, "filter", "")
 
-        data = CFGFile(plugin, "data",   "ds")
-        warps = CFGFile(plugin, "warps",   "ds")
+        data = CFGFile(plugin,  "data",  "ds")
+        warps = CFGFile(plugin, "warps", "ds")
+        mines = CFGFile(plugin, "mines", "ds")
 
         restore()
     }

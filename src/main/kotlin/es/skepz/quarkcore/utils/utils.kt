@@ -32,3 +32,12 @@ fun getOfflineUserFileRaw(core: QuarkCore, uuid: UUID): CFGFile? {
 
     return CFGFile(core, uuid.toString(), "users")
 }
+
+fun forceGetUserFile(core: QuarkCore, uuid: UUID): CFGFile {
+    val file = java.io.File(core.dataFolder.toString() + "/users/$uuid.yml")
+    if (!file.exists()) {
+        file.createNewFile()
+    }
+
+    return CFGFile(core, uuid.toString(), "users")
+}

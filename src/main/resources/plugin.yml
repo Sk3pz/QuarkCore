@@ -13,7 +13,35 @@ commands:
     aliases: eco
   rank:
     description: edit and set ranks
+  mine:
+    description: create and edit mines
+  setspawn:
+    description: set the spawn location
+  setwarp:
+    description: set a warp location
+  setfreeloc:
+    description: set a free location
+    aliases: sfl
+  world:
+    description: manage worlds (create, delete, list, tp)
 
+  ban:
+    description: ban a player
+  tempban:
+    description: temporarily ban a player
+  unban:
+    description: unban a player
+  mute:
+    description: mute a player
+  tempmute:
+    description: temporarily mute a player
+  unmute:
+    description: unmute a player
+  kick:
+    description: kick a player
+
+  sell:
+    description: sell items in your inventory
   rankup:
     description: rankup command
     aliases: ru
@@ -22,7 +50,10 @@ commands:
     aliases: bal
   pay:
     description: pay a player
-
+  spawn:
+    description: teleport to spawn
+  warp:
+    description: teleport to a warp
   tpa:
     description: request to teleport to a player
   tphere:
