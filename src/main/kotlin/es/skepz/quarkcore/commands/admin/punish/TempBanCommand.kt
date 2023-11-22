@@ -1,4 +1,4 @@
-package es.skepz.quarkcore.commands.admin
+package es.skepz.quarkcore.commands.admin.punish
 
 import es.skepz.quarkcore.QuarkCore
 import es.skepz.quarkcore.files.UserFile

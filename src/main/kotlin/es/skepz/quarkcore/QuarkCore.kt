@@ -6,6 +6,7 @@ import es.skepz.quarkcore.commands.SellCommand
 import es.skepz.quarkcore.commands.SpawnCommand
 import es.skepz.quarkcore.commands.WarpCommand
 import es.skepz.quarkcore.commands.admin.*
+import es.skepz.quarkcore.commands.admin.punish.*
 import es.skepz.quarkcore.commands.confirmation.QuarkCancelCommand
 import es.skepz.quarkcore.commands.confirmation.QuarkConfirmCommand
 import es.skepz.quarkcore.commands.economy.PayCommand

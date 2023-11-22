@@ -1,4 +1,4 @@
-package es.skepz.quarkcore.commands.admin
+package es.skepz.quarkcore.commands.admin.punish
 
 import es.skepz.quarkcore.QuarkCore
 import es.skepz.quarkcore.files.UserFile
@@ -11,8 +11,8 @@ import org.bukkit.entity.Player
 import org.bukkit.util.StringUtil
 import java.util.ArrayList
 
-class UnbanCommand(val core: QuarkCore) : CoreCMD(core, "unban", "/unban <name>", 1,
-    "quarkcore.command.unban", false, true) {
+class UnmuteCommand(val core: QuarkCore) : CoreCMD(core, "unmute", "/unmute <name>", 1,
+    "quarkcore.command.unmute", false, true) {
 
     override fun run() {
         // get the player or offline player from the first argument
@@ -27,10 +27,13 @@ class UnbanCommand(val core: QuarkCore) : CoreCMD(core, "unban", "/unban <name>"
         val file = UserFile(core, targetPlayer.uniqueId)
 
         // set the player's ban status to true
-        file.setUnbanned()
+        file.setUnmuted()
 
-        sendMessage(sender, "&7You have unbanned &b$target.")
-        Bukkit.getLogger().severe("$senderName has unbanned $target")
+        sendMessage(sender, "&7You have unmuted &b$target.")
+        if (targetPlayer is Player) {
+            sendMessage(targetPlayer, "&7You have been unmuted by &b$senderName.")
+        }
+        Bukkit.getLogger().severe("$senderName has unmuted $target")
     }
 
     override fun registerTabComplete(sender: CommandSender, args: Array<String>): List<String> {
