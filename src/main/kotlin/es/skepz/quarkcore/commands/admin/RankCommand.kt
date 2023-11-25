@@ -33,7 +33,7 @@ class RankCommand(val core: QuarkCore) : CoreCMD(core, "rank", "/rank <create|ed
             }
             "set" -> {
                 if (args.size != 3) {
-                    sendMessage(sender, "&cInvalid usage.")
+                    sendMessage(sender, "&cInvalid usage. /rank set <player> <rank>")
                     return
                 }
                 val player = core.server.getPlayer(args[1])

@@ -3,6 +3,7 @@ package es.skepz.quarkcore.commands.admin
 import es.skepz.quarkcore.QuarkCore
 import es.skepz.quarkcore.skepzlib.sendMessage
 import es.skepz.quarkcore.skepzlib.wrappers.CoreCMD
+import es.skepz.quarkcore.utils.setWarp
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -14,14 +15,9 @@ class SetFreeLocCommand(val core: QuarkCore) : CoreCMD(core, "setfreeloc", "/set
 
         val freeLoc = player.location
 
-        core.files.data["free-loc.world"] = freeLoc.world.name
-        core.files.data["free-loc.x"] = freeLoc.x
-        core.files.data["free-loc.y"] = freeLoc.y
-        core.files.data["free-loc.z"] = freeLoc.z
-        core.files.data["free-loc.yaw"] = freeLoc.yaw
-        core.files.data["free-loc.pitch"] = freeLoc.pitch
+        setWarp(core, "survival", freeLoc)
 
-        sendMessage(player, "&7Set free location!")
+        sendMessage(player, "&7Set survival warp!")
     }
 
     override fun registerTabComplete(sender: CommandSender, args: Array<String>): List<String> {

@@ -1,5 +1,6 @@
 default_level: '0'
 default_rank: a
+prestige_multiplier: 1
 levels:
   zero:
     prefix: '&8&l0'
@@ -27,6 +28,7 @@ levels:
     raw: '5'
   free:
     prefix: '&6&lFree'
+    next: none
     raw: Free
 ranks:
   a:

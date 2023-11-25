@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
 
 class EcoCommand(val core: QuarkCore) : CoreCMD(core, "eco", "/eco <give|take|set|check> <player> <amount>",
-    2, "quark.eco", false, true) {
+    2, "quarkcore.command.eco", false, true) {
 
     override fun run() {
         val mode = args[0]

@@ -6,6 +6,7 @@ import es.skepz.quarkcore.skepzlib.colorize
 import es.skepz.quarkcore.skepzlib.invalid
 import es.skepz.quarkcore.skepzlib.serverBroadcast
 import es.skepz.quarkcore.skepzlib.wrappers.CoreEvent
+import es.skepz.quarkcore.utils.isFree
 import io.papermc.paper.event.player.AsyncChatEvent
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.event.EventHandler
@@ -67,7 +68,7 @@ class EventPlayerChat(private val quark: QuarkCore): CoreEvent(quark) {
             }
         }
 
-        val prestige = if (pLvl == "free") prestigeLvlDisplay else "$prestigeLvlDisplay$pRankColor$prestigeRank"
+        val prestige = if (isFree(quark, player)) prestigeLvlDisplay else "$prestigeLvlDisplay$pRankColor$prestigeRank"
 
         val prefix = if (rankPrefix.isEmpty()) {
             "$prestige $nameColor"

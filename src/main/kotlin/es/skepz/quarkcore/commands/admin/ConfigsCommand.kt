@@ -6,7 +6,7 @@ import es.skepz.quarkcore.skepzlib.wrappers.CoreCMD
 import org.bukkit.command.CommandSender
 
 class ConfigsCommand(private val quarkCore: QuarkCore) : CoreCMD(quarkCore, "cfgreload", "/cfgreload",
-    0, "quark.configs", false, false) {
+    0, "quarkcore.commands.cfgrl", false, false) {
     override fun run() {
         quarkCore.files.reload()
         quarkCore.userFiles.values.forEach { it.reload() }

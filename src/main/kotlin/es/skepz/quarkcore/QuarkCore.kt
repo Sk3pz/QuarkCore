@@ -1,10 +1,7 @@
 package es.skepz.quarkcore
 
+import es.skepz.quarkcore.commands.*
 import es.skepz.quarkcore.commands.economy.BalanceCommand
-import es.skepz.quarkcore.commands.RankupCommand
-import es.skepz.quarkcore.commands.SellCommand
-import es.skepz.quarkcore.commands.SpawnCommand
-import es.skepz.quarkcore.commands.WarpCommand
 import es.skepz.quarkcore.commands.admin.*
 import es.skepz.quarkcore.commands.admin.punish.*
 import es.skepz.quarkcore.commands.confirmation.QuarkCancelCommand
@@ -30,6 +27,8 @@ class QuarkCore : JavaPlugin() {
 
     val files = ServerFiles(this)
     val userFiles = mutableMapOf<UUID, UserFile>()
+
+    // todo: should not allow players to teleport to survival world if they have not unlocked it
     val tpaRequests = HashMap<UUID, UUID>()
     val tpahereRequests = HashMap<UUID, UUID>()
 
@@ -63,6 +62,7 @@ class QuarkCore : JavaPlugin() {
         SpawnCommand(this).register()
         SellCommand(this).register()
         WarpCommand(this).register()
+        RulesCommand(this).register()
 
         // admin commands
         ConfigsCommand(this).register()
@@ -113,20 +113,28 @@ class QuarkCore : JavaPlugin() {
             setWarp(this, "prison", server.getWorld(prisonWorld)?.spawnLocation ?: server.worlds.first().spawnLocation)
         }
 
-        // default the config spawn location to the spawn of the survival world
+        // default the config spawn location to the spawn
         // if spawn is not set
-        if (files.config.cfg.getConfigurationSection("spawn")?.getKeys(false)?.contains("world") != true) {
-            setSpawn(this, server.getWorld(survivalWorld)?.spawnLocation ?: server.worlds.first().spawnLocation)
+
+        if (files.data.cfg.getConfigurationSection("spawn") == null) {
+            setSpawn(this, server.getWorld(prisonWorld)?.spawnLocation ?: server.worlds.first().spawnLocation)
         }
+
+        // todo: spawn is broken
 
         // set the default free position
         val freeLoc = server.getWorld(survivalWorld)?.spawnLocation ?: server.worlds.first().spawnLocation
-        files.data["free-loc.world"] = freeLoc.world.name
-        files.data["free-loc.x"] = freeLoc.x
-        files.data["free-loc.y"] = freeLoc.y
-        files.data["free-loc.z"] = freeLoc.z
-        files.data["free-loc.yaw"] = freeLoc.yaw
-        files.data["free-loc.pitch"] = freeLoc.pitch
+//        files.data["free-loc.world"] = freeLoc.world.name
+//        files.data["free-loc.x"] = freeLoc.x
+//        files.data["free-loc.y"] = freeLoc.y
+//        files.data["free-loc.z"] = freeLoc.z
+//        files.data["free-loc.yaw"] = freeLoc.yaw
+//        files.data["free-loc.pitch"] = freeLoc.pitch
+
+        // if warp survival doesn't exist, create it
+        if (files.warps.cfg.getConfigurationSection("warps")?.getKeys(false)?.contains("survival") != true) {
+            setWarp(this, "survival", freeLoc)
+        }
 
         // start the mines
         files.mines.cfg.getConfigurationSection("mines")?.getKeys(false)?.forEach { mine ->

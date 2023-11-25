@@ -30,8 +30,6 @@ class WorldCommand(val core: QuarkCore): CoreCMD(core, "world", "/world <create|
                 }
 
                 val creator = WorldCreator(name)
-                creator.generatorSettings("2;0;1;")
-                creator.generateStructures(false)
                 creator.environment(World.Environment.NORMAL)
 
                 core.server.createWorld(creator) ?: return sendMessage(player, "&cError creating world $name.")

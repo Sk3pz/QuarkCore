@@ -40,6 +40,8 @@ commands:
   kick:
     description: kick a player
 
+  rules:
+    description: view the server rules
   sell:
     description: sell items in your inventory
   rankup:
@@ -54,6 +56,7 @@ commands:
     description: teleport to spawn
   warp:
     description: teleport to a warp
+
   tpa:
     description: request to teleport to a player
   tphere:
@@ -61,9 +64,10 @@ commands:
     aliases: tpahere
   tpaccept:
     description: accept a request for teleportation
+    aliases: tpaaccept, tpyes
   tpdeny:
     description: deny a request for teleportation
-    aliases: tpadeny
+    aliases: tpadeny, tpno
   tpcancel:
     description: cancel a request you sent for teleportation
     aliases: tpacancel

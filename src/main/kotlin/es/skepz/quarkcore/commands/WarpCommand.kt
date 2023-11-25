@@ -5,6 +5,7 @@ import es.skepz.quarkcore.skepzlib.playSound
 import es.skepz.quarkcore.skepzlib.sendMessage
 import es.skepz.quarkcore.skepzlib.wrappers.CoreCMD
 import es.skepz.quarkcore.utils.getWarp
+import es.skepz.quarkcore.utils.isFree
 import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.command.CommandSender
@@ -31,7 +32,8 @@ class WarpCommand(val core: QuarkCore) : CoreCMD(core, "warp", "warp <name>", 1,
         // get mine warps and check against those
         for (mine in core.mines) {
             if (mine.name.equals(warp, true)) {
-                if (!mine.canBreak(player)) return sendMessage(player, "&cYou don't have permission to warp to this mine!")
+                if (!mine.canBreak(player) && (!player.isOp && !player.hasPermission("*") && !player.hasPermission("quarkcore.warp.override")))
+                    return sendMessage(player, "&cYou don't have permission to warp to this mine!")
                 loc = mine.warp
                 break
             }
@@ -39,6 +41,9 @@ class WarpCommand(val core: QuarkCore) : CoreCMD(core, "warp", "warp <name>", 1,
 
         // if the warp was not a mine warp, get the server warps
         if (loc == null) {
+            if (warp == "survival" && (!isFree(core, player) && !player.isOp && !player.hasPermission("*") && !player.hasPermission("quarkcore.warp.override"))) {
+                return sendMessage(player, "&cYou are not free, you cannot warp here!")
+            }
             loc = getWarp(core, warp) ?: return sendMessage(player, "&cWarp not found!")
         }
 
@@ -58,7 +63,13 @@ class WarpCommand(val core: QuarkCore) : CoreCMD(core, "warp", "warp <name>", 1,
 
         // add server warps to the list
         val keys = core.files.warps.cfg.getConfigurationSection("warps")?.getKeys(false) ?: listOf()
-        list.addAll(keys)
+        val player = sender as Player
+        for (key in keys) {
+            if (key == "survival" && (!isFree(core, player) && !player.isOp && !player.hasPermission("*"))) {
+                continue
+            }
+            list.add(key)
+        }
 
         if (args.size == 1) {
             StringUtil.copyPartialMatches(args[0], list, completions)

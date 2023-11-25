@@ -43,7 +43,7 @@ fun warpExists(plugin: QuarkCore, name: String): Boolean {
 
 fun getSpawn(plugin: QuarkCore): Location {
     val data = plugin.files.data
-    val world = data.cfg.getString("spawn.world") ?: return plugin.server.worlds[0].spawnLocation
+    val world = data.cfg.getString("spawn.world") ?: return plugin.server.getWorld("prison")?.spawnLocation ?: plugin.server.worlds.first().spawnLocation
     val x = data.cfg.getDouble("spawn.x")
     val y = data.cfg.getDouble("spawn.y")
     val z = data.cfg.getDouble("spawn.z")

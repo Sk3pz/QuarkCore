@@ -4,6 +4,7 @@ import es.skepz.quarkcore.QuarkCore
 import es.skepz.quarkcore.files.UserFile
 import es.skepz.quarkcore.skepzlib.colorize
 import net.kyori.adventure.text.Component
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerLoginEvent
 
@@ -82,4 +83,13 @@ fun reloadLogout(plugin: QuarkCore, player: Player) {
     plugin.tpaRequests.remove(player.uniqueId)
     plugin.tpahereRequests.remove(player.uniqueId)
     plugin.confirmMap.remove(player.uniqueId)
+}
+
+fun isFree(plugin: QuarkCore, player: Player): Boolean {
+    // get the current level from the player's file
+    val lvl = getUserFile(plugin, player).getPrestigeLvl()
+    // get the next level from prestige.yml. if null then the user is free
+    val next = plugin.files.prestige.cfg.getString("levels.$lvl.next") ?: "none"
+    val isFree = plugin.files.prestige.cfg.getString("levels.$lvl.next") == "none"
+    return isFree
 }

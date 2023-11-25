@@ -5,11 +5,14 @@ import es.skepz.quarkcore.skepzlib.sendMessage
 import es.skepz.quarkcore.skepzlib.serverBroadcast
 import es.skepz.quarkcore.skepzlib.wrappers.CoreCMD
 import es.skepz.quarkcore.utils.getUserFile
+import es.skepz.quarkcore.utils.getWarp
+import es.skepz.quarkcore.utils.isFree
 import es.skepz.quarkcore.utils.sendConfirmMsg
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.command.CommandSender
 import java.util.*
+import kotlin.math.max
 
 class RankupCommand(val core: QuarkCore) : CoreCMD(core, "rankup", "/rankup",
     0, "none", true, false) {
@@ -21,13 +24,20 @@ class RankupCommand(val core: QuarkCore) : CoreCMD(core, "rankup", "/rankup",
         val pRank = file.cfg.getString("prestige.rank") ?: return sendMessage(player, "&cAn error occurred while loading your data. Please relog.")
         val pLvl = file.cfg.getString("prestige.level") ?: return sendMessage(player, "&cAn error occurred while loading your data. Please relog.")
 
+        if (isFree(core, player)) {
+            return sendMessage(player, "&cYou are already free!")
+        }
+
         // get the current prestige level as an int from prestige.yml levels.<prestige>.raw
         val pLvlIntRaw = core.files.prestige.cfg.getString("levels.$pLvl.raw") ?: "0"
         val pLvlInt = pLvlIntRaw.toIntOrNull() ?: 0
 
         // get rankup cost and next rank from prestige.yml
         val rankupCostBase = core.files.prestige.cfg.getInt("ranks.$pRank.next_cost")
-        val multiplier = pLvlInt + 1
+        val cfgMultiplier = core.files.prestige.cfg.getInt("prestige_multiplier")
+
+        val multiplier = max(pLvlInt * cfgMultiplier, 1)
+
         val rankupCost = rankupCostBase * multiplier
         val nextRank = core.files.prestige.cfg.getString("ranks.$pRank.next") ?:
             return sendMessage(player, "&cAn error occured trying to retrieve your next rank. Please contact an administrator.")
@@ -42,7 +52,7 @@ class RankupCommand(val core: QuarkCore) : CoreCMD(core, "rankup", "/rankup",
         if (nextRank == "none") {
             // get the next prestige
             val nextPrestige = core.files.prestige.cfg.getString("levels.$pLvl.next") ?:
-                return sendMessage(player, "&cYou are already max prestige!")
+                return sendMessage(player, "&cYou are already free!")
             val displayNxt = core.files.prestige.cfg.getString("levels.$nextPrestige.raw") ?: nextPrestige
 
             // confirm that the user wants to prestige
@@ -69,13 +79,7 @@ class RankupCommand(val core: QuarkCore) : CoreCMD(core, "rankup", "/rankup",
                         serverBroadcast("&e&l${pl.name}&6&l has been set free!")
 
                         // get the survival world
-                        val world = core.files.data.cfg.getString("free-loc.world") ?: "world"
-                        val x = core.files.data.cfg.getDouble("free-loc.x")
-                        val y = core.files.data.cfg.getDouble("free-loc.y")
-                        val z = core.files.data.cfg.getDouble("free-loc.z")
-                        val yaw = core.files.data.cfg.getDouble("free-loc.yaw").toFloat()
-                        val pitch = core.files.data.cfg.getDouble("free-loc.pitch").toFloat()
-                        val loc = Location(core.server.getWorld(world) ?: core.server.worlds.first(), x, y, z, yaw, pitch)
+                        val loc = getWarp(core, "survival")!!
                         pl.teleport(loc)
                     } else {
                         // send message
