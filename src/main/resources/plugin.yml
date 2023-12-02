@@ -79,3 +79,4 @@ commands:
     visible: false
   quark_cancel:
     description: cancel when prompted
+    visible: false

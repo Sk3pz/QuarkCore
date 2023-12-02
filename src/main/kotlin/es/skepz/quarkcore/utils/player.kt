@@ -70,7 +70,7 @@ fun reloadLogin(plugin: QuarkCore, player: Player) {
 fun logout(plugin: QuarkCore, player: Player) {
     if (plugin.userFiles.containsKey(player.uniqueId)) {
         val file = plugin.userFiles[player.uniqueId]!!
-        file.setLastLogoff()
+        //file.setLastLogoff()
     }
     plugin.userFiles.remove(player.uniqueId)
     plugin.tpaRequests.remove(player.uniqueId)
